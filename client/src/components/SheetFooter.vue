@@ -1,23 +1,33 @@
 <template>
-  <div id="footer">
-    <div class="footer-column">
-      <h4 class="footer-column-title">Weekly Missions</h4>
-      <div class="footer-column-number">1</div>
-      <div class="footer-column-box"></div>
-      <div class="footer-column-number">2</div>
-      <div class="footer-column-box"></div>
-      <div class="footer-column-number">3</div>
-      <div class="footer-column-box"></div>
-    </div>
+  <div>
+    <div id="footer">
+      <div class="footer-column">
+        <h4 class="footer-column-title">Weekly Missions</h4>
+        <div class="footer-column-number">1</div>
+        <div class="footer-column-box"></div>
+        <div class="footer-column-number">2</div>
+        <div class="footer-column-box"></div>
+        <div class="footer-column-number">3</div>
+        <div class="footer-column-box"></div>
+      </div>
 
-    <div class="footer-column">
-      <h4 class="footer-column-title">Lesson Goals</h4>
-      <div class="footer-column-number">1</div>
-      <div class="footer-column-box"></div>
-      <div class="footer-column-number">2</div>
-      <div class="footer-column-box"></div>
-      <div class="footer-column-number">3</div>
-      <div class="footer-column-box"></div>
+      <div class="footer-column">
+        <h4 class="footer-column-title">Lesson Goals</h4>
+        <div class="footer-column-number">1</div>
+        <div class="footer-column-box"></div>
+        <div class="footer-column-number">2</div>
+        <div class="footer-column-box"></div>
+        <div class="footer-column-number">3</div>
+        <div class="footer-column-box"></div>
+      </div>
+    </div>
+    <div id="logo-date">
+      <div id="logo">
+        <img src="img/tpo-logo.jpg">
+      </div>
+      <div id="date">
+        <h4>{{ date }}</h4>
+      </div>
     </div>
   </div>
 </template>
@@ -26,7 +36,7 @@
 export default {
   name: "SheetFooter",
   props: {
-    // msg: String
+    date: String
   }
 };
 </script>
@@ -59,6 +69,28 @@ export default {
 
   .footer-column-box {
     border-left: 0;
+  }
+}
+
+#logo-date {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+
+  #logo {
+    img {
+      height: 45pt;
+      width: auto;
+    }
+  }
+
+  #date {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    h4 {
+      color: rgba($black, $alpha: 0.5);
+    }
   }
 }
 </style>

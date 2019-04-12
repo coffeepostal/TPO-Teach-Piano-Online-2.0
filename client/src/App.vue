@@ -1,16 +1,23 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Home</router-link>|
+      <router-link to="/about">About</router-link>|
+      <router-link to="/sheet">Practice Sheet Generator</router-link>
     </div>
     <router-view/>
   </div>
 </template>
 
 <style lang="scss">
+// Variables
+$primary-color: rgb(255, 196, 0);
+$secondary-color: rgb(200, 200, 200);
+$white: rgb(240, 240, 240);
+$black: rgb(20, 30, 40);
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

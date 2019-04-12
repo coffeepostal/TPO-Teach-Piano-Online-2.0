@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Message messages="messages"/>
+    <Message v-bind="messages"/>
 
     <header id="header">
       <div id="header-content">
@@ -29,18 +29,9 @@
 
           <SheetInfo/>
 
-          <SheetGrid :generated/>
+          <SheetGrid v-bind="generated"/>
 
-          <SheetFooter/>
-
-          <div id="logo-date">
-            <div id="logo">
-              <img src="img/tpo-logo.jpg">
-            </div>
-            <div id="date">
-              <h4>{{ date }}</h4>
-            </div>
-          </div>
+          <SheetFooter v-bind:date="generated.date"/>
         </div>
       </div>
     </div>
