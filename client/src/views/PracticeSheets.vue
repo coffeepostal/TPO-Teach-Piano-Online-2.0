@@ -348,10 +348,10 @@ export default {
       //  Run through the error messages
       this.errorMessages();
 
-      //  Add the data to the JSON file via Axios
-      this.addPost();
+      if (this.piece != "" && this.email != "") {
+        //  Add the data to the JSON file via Axios
+        this.addPost();
 
-      if (this.piece != "") {
         //	Get the title of the piece, and format the name
         const date = moment().format("YYYY-MM-DD");
         const piece = this.piece.replace(/\s+/g, "-").toLowerCase();
