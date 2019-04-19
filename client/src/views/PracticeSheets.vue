@@ -184,6 +184,9 @@ import jspdf from "jspdf";
 import html2canvas from "html2canvas";
 import moment from "moment";
 
+//  Importing PostsService to send piece title, composer, and email address to JSON file
+import PostsService from "@/services/PostServices";
+
 export default {
   name: "home",
   data() {
@@ -241,6 +244,14 @@ export default {
     }
   },
   methods: {
+    async addPost() {
+      await PostsService.addPost({
+        piece: this.piece,
+        composer: this.composer,
+        email: this.email
+      });
+      // this.$router.push({ name: 'Posts' })
+    },
     errorMessages() {
       //	 Set variables
       const repeat = this.repeat;
@@ -334,7 +345,11 @@ export default {
       }
     },
     exportPDF() {
+      //  Run through the error messages
       this.errorMessages();
+
+      //  Add the data to the JSON file via Axios
+      this.addPost();
 
       if (this.piece != "") {
         //	Get the title of the piece, and format the name
