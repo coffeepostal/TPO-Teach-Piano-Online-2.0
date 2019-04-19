@@ -23,7 +23,7 @@
     </div>
     <div id="logo-date">
       <div id="logo">
-        <img src="img/tpo-logo.jpg">
+        <img src="@/assets/tpo-logo.jpg">
       </div>
       <div id="date">
         <h4>{{ date }}</h4>

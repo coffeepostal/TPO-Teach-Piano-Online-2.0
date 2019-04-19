@@ -15,7 +15,21 @@
 export default {
   name: "SheetInfo",
   props: {
-    // msg: String
+    piece: {
+      type: String,
+      required: true,
+      default: "I Want to Know What Love Is"
+    },
+    composer: {
+      type: String,
+      required: false,
+      default: "Foreigner"
+    },
+    student: {
+      type: String,
+      required: false,
+      default: "Bob Bobson"
+    }
   }
 };
 </script>

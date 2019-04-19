@@ -24,7 +24,13 @@
 
     <fieldset>
       <legend>Piece Title:</legend>
-      <input type="text" v-model="piece" placeholder="Input Piece Title" name="piece">
+      <input
+        type="text"
+        v-model="piece"
+        @keyup="changePiece"
+        placeholder="Input Piece Title"
+        name="piece"
+      >
     </fieldset>
 
     <fieldset>
@@ -69,7 +75,7 @@
 
     <fieldset>
       <legend title="We require an email address to track uses">Email Address ❓</legend>
-      <input type="email" placeholder="example@example.com">
+      <input type="email" placeholder="example@example.com" v-model="email">
     </fieldset>
 
     <button @click="exportPDF">Export PDF</button>
@@ -80,25 +86,68 @@
 export default {
   name: "GenerationForm",
   data() {
-    return {
-      sheet: "practice",
-      student: "",
-      piece: "",
-      composer: "",
-      date: moment().format("dddd, MMMM Do YYYY"),
-      measures: 40,
-      measuresMax: 96,
-      repeat: 1,
-      repeatMax: 6,
-      startingMeasure: 13,
-      endingMeasure: 28,
-      measureRange: [],
-      numberOfLargemeasuresMax: 210,
-      numberOfSmallmeasuresMax: 336
-    };
+    return {};
   },
   props: {
-    msg: String
+    sheet: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    piece: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    composer: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    student: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    measures: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    startingMeasure: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    endingMeasure: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    repeat: {
+      type: String,
+      required: true,
+      default: ""
+    },
+    email: {
+      type: String,
+      required: true,
+      default: ""
+    }
+  },
+  computed: {
+    repeatType() {
+      if (this.sheet === "practice") {
+        return "Repeat Grid";
+      } else {
+        return "Repeat Range";
+      }
+    }
+  },
+  methods: {
+    pieceChanged() {
+      this.$emit("changePiece", this.piece);
+    }
   }
 };
 </script>
@@ -127,6 +176,66 @@ export default {
     transition: background 0.25s;
     &:hover {
       background: darken($primary-color, 10%);
+    }
+  }
+}
+// Form Styles
+fieldset {
+  legend {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+    margin-bottom: 5px;
+  }
+  input[type="text"],
+  input[type="number"],
+  input[type="email"] {
+    font-family: "Source Serif Pro", serif;
+    border: 0;
+    border-bottom: 1px solid $black;
+    font-size: 1rem;
+    font-weight: 300;
+    padding-bottom: 2px;
+    width: 100%;
+  }
+
+  &.title {
+    min-height: 40px;
+    .btn {
+      display: inline-block;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: $secondary-color;
+      color: darken($secondary-color, 10%);
+      padding: 20px 40px;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      transition: background 0.25s, color 0.25s;
+      cursor: pointer;
+    }
+
+    input[type="radio"].toggle {
+      display: none;
+
+      & + label {
+        &:hover {
+          background: darken($secondary-color, 10%);
+          color: lighten($secondary-color, 20%);
+        }
+        &:first-of-type {
+          margin-right: 18px;
+        }
+      }
+      &:checked + label {
+        background: $primary-color;
+        color: $white;
+        cursor: pointer;
+      }
     }
   }
 }

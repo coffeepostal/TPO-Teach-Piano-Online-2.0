@@ -1,15 +1,16 @@
 <template>
   <div id="grid">
     <div class="grid-practice" v-show="sheetType === 'practice'">
-      <div class="grid-tile" v-for="(grid, index) in repeat">
-        <div class="measure" v-for="(measure, index) in measures">
+      <div class="grid-tile" v-for="(grid, index) in repeat" :key="grid.id">
+        <p>{{ grid }} - {{ index }}</p>
+        <div class="measure" v-for="(measure, index) in measures" :key="measure.id">
           <div class="inner-measure">{{ index +1 }}</div>
         </div>
       </div>
     </div>
 
     <div class="grid-random" v-show="sheetType === 'random'">
-      <div class="measure" v-for="(measure, index) in randomizedMeasures">
+      <div class="measure" v-for="(measure, index) in randomizedMeasures" :key="measure.id">
         <div class="inner-measure">{{ randomizedMeasures[index] }}</div>
       </div>
     </div>
@@ -19,8 +20,40 @@
 <script>
 export default {
   name: "SheetGrid",
-  props: {
-    // msg: String
+  props: ["generated"],
+  data: function() {
+    return {
+      sheetType: this.generated.sheetType,
+      repeat: this.generated.repeat,
+      measures: this.generated.measures,
+      measureRange: []
+    };
+  },
+  methods: {
+    randomizedMeasures() {
+      console.log("randomizedMeasures() has been called");
+      //	Setup variables
+      let rangedMeasures = [];
+      let repeat = this.repeat;
+      let randomizedMeasures = [];
+
+      //	Create array from low/high values
+      for (let i = this.startingMeasure; i <= this.endingMeasure; i++) {
+        //	Add 'repeat' copies of this number
+        for (let i2 = 0; i2 < repeat; i2++) {
+          //	Add 'i' to array
+          rangedMeasures.push(i);
+        }
+      }
+
+      //	Randomize the measures
+      randomizedMeasures = rangedMeasures.sort(function() {
+        return 0.5 - Math.random();
+      });
+
+      //	Set the value of measureRange to the randomized, repeated array
+      return (this.measureRange = randomizedMeasures);
+    }
   }
 };
 </script>

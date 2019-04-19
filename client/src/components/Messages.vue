@@ -1,6 +1,11 @@
 <template>
   <div id="messages">
-    <div v-for="message, index in messages" class="message" :class="message.type">
+    <div
+      v-for="(message, index) in messages"
+      class="message"
+      :class="message.type"
+      :key="message.id"
+    >
       <p>{{ message.text }}</p>
       <button class="button" @click="killMessage(index)">X</button>
     </div>
@@ -11,7 +16,8 @@
 export default {
   name: "HelloWorld",
   props: {
-    messages: Array
+    messages: Array,
+    default: []
   },
   methods: {
     killMessage(index) {
