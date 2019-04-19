@@ -17,12 +17,9 @@ app.use(cors())
 const jsonfile = require('jsonfile')
 
 app.get('/posts', (req, res) => {
-    res.send(
-        [{
-            title: "Hello World!",
-            description: "Hi there! How are you?"
-        }]
-    )
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.write("Hello World");
+    res.end();
 })
 
 app.post('/posts', (req, res) => {
