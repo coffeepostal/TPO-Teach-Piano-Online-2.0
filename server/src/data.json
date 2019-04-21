@@ -1,1 +1,9 @@
-{"entries":[{"piece":"Piece Title","composer":"Composer Name","email":"user@domain.com"},{"piece":"This Title","composer":"A Composer","email":""},{"piece":"This is a title","composer":"","email":"me@farns.me"}]}
+{
+    "entries": [
+        {
+            "piece": "Piece Title",
+            "composer": "Composer Name",
+            "email": "user@domain.com"
+        }
+    ]
+}

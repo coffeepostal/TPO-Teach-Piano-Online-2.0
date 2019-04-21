@@ -16,13 +16,13 @@ app.use(cors())
 //  Import jsonfile package
 const jsonfile = require('jsonfile')
 
-app.get('/posts', (req, res) => {
+app.get('/api/posts', (req, res) => {
     res.writeHead(200, { "Content-Type": "text/plain" });
-    res.write("Hello World");
+    res.write("What are you looking at?!? 👀");
     res.end();
 })
 
-app.post('/posts', (req, res) => {
+app.post('/api/posts', (req, res) => {
     //  Assign JSON file to use
     const file = './src/data.json'
 
