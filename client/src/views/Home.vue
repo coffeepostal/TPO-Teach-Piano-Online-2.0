@@ -185,7 +185,7 @@ import html2canvas from "html2canvas";
 import moment from "moment";
 
 //  Importing PostsService to send piece title, composer, and email address to JSON file
-import PostsService from "@/services/PostServices";
+import PostsService from "@/services/PostsService";
 
 export default {
   name: "Practice Sheet",

@@ -1,0 +1,8 @@
+{
+    "url": "mongodb://my-mongo-server-url",
+    "databaseName": "my_db",
+    "collection": "my_collection",
+    "query": {
+        "color": "purple"
+    }
+}

@@ -63,3 +63,7 @@ typings/
 
 # MacOSX Files
 .DS_Store
+
+# Zeit Now Files
+now.json
+.nowignore
