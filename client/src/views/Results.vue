@@ -6,7 +6,7 @@
           <h1>Posts</h1>
         </div>
         <div id="link">
-          <router-link v-bind:to="{ name: 'Home' }">Return Home</router-link>
+          <router-link v-bind:to="{ name: 'Practice Sheets' }">Return Home</router-link>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
           There are no posts.. Lets add one now
           <br>
           <br>
-          <router-link v-bind:to="{ name: 'NewPost' }" class="add_post_link">Add Post</router-link>
+          <router-link v-bind:to="{ name: 'Practice Sheets' }" class="button">Add Post</router-link>
         </div>
       </div>
     </div>
@@ -50,10 +50,10 @@
       <h2>Download CSV File</h2>
       <ul class="link-list">
         <li>
-          <a href="#" @click="exportCSV('piece,composer')" class="button">Pieces/Composers CSV</a>
+          <a href="http://localhost:8081/export/piece,composer" class="button">Pieces/Composers CSV</a>
         </li>
         <li>
-          <a href="#" @click="exportCSV('email')" class="button">Email Addresses CSV</a>
+          <a href="http://localhost:8081/export/email" class="button">Email Addresses CSV</a>
         </li>
       </ul>
     </div>
@@ -84,8 +84,11 @@ export default {
       this.$router.push({ name: "Results" });
     },
     async exportCSV(fields) {
-      await PostsService.deletePost(fields);
+      await PostsService.exportCSV(fields);
       this.$router.push({ name: "Results" });
+    },
+    async downloadCSV(fields) {
+      await PostsService.downloadCSV(fields);
     }
   }
 };
