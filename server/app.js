@@ -1,5 +1,6 @@
 //  Import the packages
 const express = require('express')
+const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
@@ -10,6 +11,9 @@ require('dotenv').config({ path: 'variables.env' })
 
 //  Create the app
 const app = express()
+
+//  Add Helmet to help secure the app
+app.use(helmet())
 
 //  Tell the app to use Morgan in "combined" mode, to better log HTTP requests
 app.use(morgan('combined'))
@@ -28,6 +32,11 @@ app.use(cors())
 
 //  Import Post model
 Post = require("./models/post")
+
+//  TESTING
+app.get('/test', (req, res) => {
+    res.json({ endpoint: '/test' })
+})
 
 // Create new post
 app.post('/posts', (req, res) => {
