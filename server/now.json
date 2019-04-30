@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "/src/app.js",
+            "src": "/start.js",
             "use": "@now/node-server"
         },
         {
@@ -12,12 +12,16 @@
     ],
     "routes": [
         {
-            "src": "/src/(.*)",
-            "dest": "/src/$1"
+            "src": "/(.*)",
+            "dest": "/$1"
         },
         {
-            "src": "/(.*)",
-            "dest": "/public/$1"
+            "src": "/public/(.*)",
+            "dest": "/$1"
+        },
+        {
+            "src": "/files/email.csv",
+            "dest": "/email.csv"
         }
     ]
 }

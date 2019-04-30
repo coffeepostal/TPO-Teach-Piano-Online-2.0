@@ -4,8 +4,8 @@
   "description": "Server side for Teach Piano Online, V2.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon start.js",
-    "dev": "nodemon src/app.js",
+    "start": "node start.js",
+    "dev": "nodemon start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
