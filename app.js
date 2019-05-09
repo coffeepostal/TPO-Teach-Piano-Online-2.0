@@ -1,6 +1,7 @@
 //  Import the packages
 const express = require('express')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 const errorHandlers = require('./handlers/errorHandlers')
@@ -28,10 +29,16 @@ app.use(cors())
 //  Import Post model
 Post = require("./models/post")
 
-//  TESTING
-app.get('/test', (req, res) => {
-    res.json({ endpoint: '/test' })
+// Connect to our Database and handle any bad connections
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true })
+const db = mongoose.connection;
+mongoose.Promise = global.Promise // Tell Mongoose to use ES6 promises
+db.on('error', (err) => {
+    console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`)
 })
+db.once("open", function (callback) {
+    console.log(`☎️ MongooDB Connection Succeeded`);
+});
 
 // Fetch all posts
 app.get('/posts', (req, res) => {
@@ -149,5 +156,9 @@ if (app.get('env') === 'development') {
 // production error handler
 app.use(errorHandlers.productionErrors);
 
-// done! we export it so we can start the site in start.js
-module.exports = app;
+// Start our app!
+const app = require('./app')
+app.set('port', process.env.PORT || 7777)
+const server = app.listen(app.get('port'), () => {
+    console.log(`🚀 Express running → PORT ${server.address().port}`)
+})
