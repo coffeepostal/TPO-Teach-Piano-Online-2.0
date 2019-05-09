@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 require('dotenv').config({ path: 'variables.env' })
 
 // Connect to our Database and handle any bad connections
-mongoose.connect(process.env.DATABASE)
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true })
 const db = mongoose.connection;
 mongoose.Promise = global.Promise // Tell Mongoose to use ES6 promises
 db.on('error', (err) => {
@@ -15,7 +15,6 @@ db.once("open", function (callback) {
 });
 
 // READY?! Let's go!
-
 
 // Start our app!
 const app = require('./app')

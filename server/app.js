@@ -1,19 +1,18 @@
 //  Import the packages
 const express = require('express')
-const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const errorHandlers = require('./handlers/errorHandlers')
-
+//  Add additional Node packages: child process (to be used with mongoexport) and fs (access the file system)
+const spawn = require('child_process').spawn
+const fs = require('fs')
+const path = require('path')
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' })
 
 //  Create the app
 const app = express()
-
-//  Add Helmet to help secure the app
-app.use(helmet())
 
 //  Tell the app to use Morgan in "combined" mode, to better log HTTP requests
 app.use(morgan('combined'))
@@ -22,10 +21,6 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-//  Add additional Node packages: child process (to be used with mongoexport) and fs (access the file system)
-const spawn = require('child_process').spawn
-const fs = require('fs')
-const path = require('path')
 
 //  Tell the app to use cors, a package that allows requests to be made by domains not identical to the one you're on, like the server/database/etc.
 app.use(cors())
