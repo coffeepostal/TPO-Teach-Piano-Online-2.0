@@ -140,7 +140,6 @@ if (process.env.NODE_ENV === 'production') {
 
 }
 
-
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
 
@@ -157,7 +156,6 @@ if (app.get('env') === 'development') {
 app.use(errorHandlers.productionErrors);
 
 // Start our app!
-const app = require('./app')
 app.set('port', process.env.PORT || 7777)
 const server = app.listen(app.get('port'), () => {
     console.log(`🚀 Express running → PORT ${server.address().port}`)
