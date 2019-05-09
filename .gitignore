@@ -67,3 +67,6 @@ typings/
 # Zeit Now Files
 now.json
 .nowignore
+
+# Generated files
+*.csv

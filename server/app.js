@@ -33,6 +33,16 @@ app.get('/test', (req, res) => {
     res.json({ endpoint: '/test' })
 })
 
+// Fetch all posts
+app.get('/posts', (req, res) => {
+    Post.find({}, 'piece composer email', function (error, posts) {
+        if (error) { console.error(error); }
+        res.json({
+            posts: posts
+        })
+    }).sort({ _id: -1 })
+})
+
 // Create new post
 app.post('/posts', (req, res) => {
     const db = req.db;
@@ -54,16 +64,6 @@ app.post('/posts', (req, res) => {
             message: 'Post saved successfully!'
         })
     })
-})
-
-// Fetch all posts
-app.get('/posts', (req, res) => {
-    Post.find({}, 'piece composer email', function (error, posts) {
-        if (error) { console.error(error); }
-        res.send({
-            posts: posts
-        })
-    }).sort({ _id: -1 })
 })
 
 // Delete a post
@@ -95,8 +95,6 @@ app.get('/export/:fields', (req, res) => {
         '--type', 'csv'
     ])
 
-
-    //  Set
     res.set('Content-Type', 'text/plain')
 
     mongoExport.stdout.on('data', function (data) {
@@ -123,6 +121,18 @@ app.get('/export/:fields', (req, res) => {
         }
     })
 })
+
+// Server Static Assets
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('public'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+    });
+
+}
+
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
