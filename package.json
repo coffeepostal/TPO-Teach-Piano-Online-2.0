@@ -4,8 +4,8 @@
   "description": "Server side for Teach Piano Online, V2.0",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node start.js",
+    "dev": "nodemon start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "config": "^3.1.0",
     "cors": "^2.8.5",
     "csv": "^5.1.1",
     "dotenv": "^7.0.0",

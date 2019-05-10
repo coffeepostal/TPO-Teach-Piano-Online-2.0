@@ -5,14 +5,11 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 const errorHandlers = require('./handlers/errorHandlers')
-const config = require('config')
-//  node-csv for generating/parsing/etc. CSV
-const csv = require('csv')
-const { Parser } = require('json2csv')
 //  Add additional Node packages: child process (to be used with mongoexport) and fs (access the file system)
 const spawn = require('child_process').spawn
 const fs = require('fs')
 const path = require('path')
+
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' })
 
@@ -32,18 +29,6 @@ app.use(cors())
 
 //  Import Post model
 Post = require("./models/post")
-
-// Connect to our Database and handle any bad connections
-const db_uri = process.env.DATABASE;
-mongoose.connect(db_uri, { useNewUrlParser: true })
-const db = mongoose.connection;
-mongoose.Promise = global.Promise // Tell Mongoose to use ES6 promises
-db.on('error', (err) => {
-    console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`)
-})
-db.once("open", function (callback) {
-    console.log(`☎️ MongooDB Connection Succeeded`);
-});
 
 // Fetch all posts
 app.get('/posts', (req, res) => {
@@ -138,8 +123,6 @@ app.get('/export/:fields', (req, res) => {
 //  Generate and Export CSV
 app.get('/csv/:fields', (req, res) => {
 
-    console.log(process.env.DATABASE)
-
     //  Query the DB for the fields requested
     const mongoExport = spawn('mongoexport', [
         '--uri', process.env.DATABASE,
@@ -148,7 +131,7 @@ app.get('/csv/:fields', (req, res) => {
         '--type', 'csv'
     ])
 
-    res.set('Content-Type', 'text/json')
+    res.set('Content-Type', 'text/csv')
 
     mongoExport.stdout.on('data', function (data) {
 
@@ -190,8 +173,5 @@ if (app.get('env') === 'development') {
 // production error handler
 app.use(errorHandlers.productionErrors);
 
-// Start our app!
-app.set('port', process.env.PORT || 7777)
-const server = app.listen(app.get('port'), () => {
-    console.log(`🚀 Express running → PORT ${server.address().port}`)
-})
+// done! we export it so we can start the site in start.js
+module.exports = app;
