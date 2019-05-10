@@ -138,6 +138,8 @@ app.get('/export/:fields', (req, res) => {
 //  Generate and Export CSV
 app.get('/csv/:fields', (req, res) => {
 
+    console.log(db)
+
     //  Query the DB for the fields requested
     const mongoExport = spawn('mongoexport', [
         '--uri', process.env.DATABASE,
