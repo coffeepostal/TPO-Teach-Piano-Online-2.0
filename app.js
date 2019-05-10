@@ -34,7 +34,7 @@ app.use(cors())
 Post = require("./models/post")
 
 // Connect to our Database and handle any bad connections
-const db_uri = config.get('mongoURI');
+const db_uri = process.env.DATABASE;
 mongoose.connect(db_uri, { useNewUrlParser: true })
 const db = mongoose.connection;
 mongoose.Promise = global.Promise // Tell Mongoose to use ES6 promises
