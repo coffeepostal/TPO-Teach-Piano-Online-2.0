@@ -48,10 +48,7 @@
       <h2>Download CSV File</h2>
       <ul class="link-list">
         <li>
-          <a href="/csv/piece,composer" class="button">Pieces/Composers CSV</a>
-        </li>
-        <li>
-          <a href="#" @click="downloadCSV()" class="button">Email Addresses CSV</a>
+          <a @click="downloadCSV()" class="button">data.CSV</a>
         </li>
       </ul>
     </div>
