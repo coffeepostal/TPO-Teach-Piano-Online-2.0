@@ -46,10 +46,10 @@
       <h2>Download CSV File</h2>
       <ul class="link-list">
         <li>
-          <a href="/export/piece,composer" class="button">Pieces/Composers CSV</a>
+          <a href="/csv/piece,composer" class="button">Pieces/Composers CSV</a>
         </li>
         <li>
-          <a href="/export/email" class="button">Email Addresses CSV</a>
+          <a href="/csv/email" class="button">Email Addresses CSV</a>
         </li>
       </ul>
     </div>

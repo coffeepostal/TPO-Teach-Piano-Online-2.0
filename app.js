@@ -8,6 +8,7 @@ const errorHandlers = require('./handlers/errorHandlers')
 const config = require('config')
 //  node-csv for generating/parsing/etc. CSV
 const csv = require('csv')
+const { Parser } = require('json2csv')
 //  Add additional Node packages: child process (to be used with mongoexport) and fs (access the file system)
 const spawn = require('child_process').spawn
 const fs = require('fs')
@@ -120,7 +121,8 @@ app.get('/export/:fields', (req, res) => {
                 }
 
                 //  Download the file
-                res.download(file);
+                // res.download(file);
+                res.send(data);
 
                 console.log("The file was saved!");
             });
@@ -133,10 +135,31 @@ app.get('/export/:fields', (req, res) => {
     })
 })
 
-//  Export CSV
-app.get('/print/', (req, res) => {
+//  Generate and Export CSV
+app.get('/csv/:fields', (req, res) => {
 
-    csv.generate({ length: 10 }).pipe(process.stdout)
+    //  Query the DB for the fields requested
+    const mongoExport = spawn('mongoexport', [
+        '--uri', process.env.DATABASE,
+        '--collection', 'posts',
+        '--fields', req.params.fields,
+        '--type', 'csv'
+    ])
+
+    res.set('Content-Type', 'text/csv')
+
+    mongoExport.stdout.on('data', function (data) {
+
+        if (data) {
+
+            res.send(data);
+
+        } else {
+
+            res.send(`No data was returned.`)
+
+        }
+    })
 })
 
 // Server Static Assets
