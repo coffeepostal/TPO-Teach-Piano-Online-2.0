@@ -22,16 +22,12 @@
                 <h3>Composer</h3>
               </th>
               <th>
-                <h3>Email</h3>
-              </th>
-              <th>
                 <h3>Delete</h3>
               </th>
             </tr>
             <tr v-for="post in posts" :key="post.id">
               <td>{{ post.piece }}</td>
               <td>{{ post.composer }}</td>
-              <td>{{ post.email }}</td>
               <td>
                 <a href="#" @click="deletePost(post._id)">❌</a>
               </td>
@@ -50,10 +46,10 @@
       <h2>Download CSV File</h2>
       <ul class="link-list">
         <li>
-          <a href="http://localhost:8081/export/piece,composer" class="button">Pieces/Composers CSV</a>
+          <a href="/export/piece,composer" class="button">Pieces/Composers CSV</a>
         </li>
         <li>
-          <a href="http://localhost:8081/export/email" class="button">Email Addresses CSV</a>
+          <a href="/export/email" class="button">Email Addresses CSV</a>
         </li>
       </ul>
     </div>
