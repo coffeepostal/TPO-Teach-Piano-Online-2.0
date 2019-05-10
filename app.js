@@ -146,7 +146,7 @@ app.get('/csv/:fields', (req, res) => {
         '--type', 'csv'
     ])
 
-    res.set('Content-Type', 'text/csv')
+    res.set('Content-Type', 'text/json')
 
     mongoExport.stdout.on('data', function (data) {
 

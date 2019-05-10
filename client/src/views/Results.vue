@@ -12,33 +12,35 @@
     </div>
     <div id="container">
       <div id="paper">
-        <div id="page" v-if="posts.length > 0">
-          <table>
-            <tr class="header">
-              <th>
-                <h3>Piece</h3>
-              </th>
-              <th>
-                <h3>Composer</h3>
-              </th>
-              <th>
-                <h3>Delete</h3>
-              </th>
-            </tr>
-            <tr v-for="post in posts" :key="post.id">
-              <td>{{ post.piece }}</td>
-              <td>{{ post.composer }}</td>
-              <td>
-                <a href="#" @click="deletePost(post._id)">❌</a>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div v-else>
-          There are no posts.. Lets add one now
-          <br>
-          <br>
-          <router-link v-bind:to="{ name: 'Practice Sheets' }" class="button">Add Post</router-link>
+        <div id="page">
+          <div v-if="posts.length > 0">
+            <table>
+              <tr class="header">
+                <th>
+                  <h3>Piece</h3>
+                </th>
+                <th>
+                  <h3>Composer</h3>
+                </th>
+                <th>
+                  <h3>Delete</h3>
+                </th>
+              </tr>
+              <tr v-for="post in posts" :key="post.id">
+                <td>{{ post.piece }}</td>
+                <td>{{ post.composer }}</td>
+                <td>
+                  <a href="#" @click="deletePost(post._id)">❌</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div v-else>
+            There are no posts.. Lets add one now
+            <br>
+            <br>
+            <router-link v-bind:to="{ name: 'Practice Sheets' }" class="button">Add Post</router-link>
+          </div>
         </div>
       </div>
     </div>
