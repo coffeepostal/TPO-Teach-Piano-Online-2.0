@@ -152,16 +152,17 @@ app.get('/csv/:fields', (req, res) => {
 
 // TEST CSV
 app.get('/csvposts', (req, res) => {
+
     //  Query the DB for the fields requested
     const mongoExport = spawn('mongoexport', [
         '--uri', process.env.DATABASE,
         '--collection', 'posts',
-        '--fields', 'email',
+        '--fields', req.params.fields,
         '--type', 'csv'
     ])
 
 
-    // res.set('Content-Type', 'text/csv')
+    res.set('Content-Type', 'text/plain')
 
     mongoExport.stdout.on('data', function (data) {
 
@@ -175,6 +176,7 @@ app.get('/csvposts', (req, res) => {
 
         }
     })
+
 })
 
 // Server Static Assets
