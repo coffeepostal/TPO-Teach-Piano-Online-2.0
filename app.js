@@ -148,6 +148,7 @@ app.get('/csv/:fields', (req, res) => {
 
         }
     })
+
 })
 
 // TEST CSV
@@ -157,23 +158,19 @@ app.get('/csvposts', (req, res) => {
     const mongoExport = spawn('mongoexport', [
         '--uri', process.env.DATABASE,
         '--collection', 'posts',
-        '--fields', req.params.fields,
+        '--fields', 'email',
         '--type', 'csv'
     ])
 
-
-    res.set('Content-Type', 'text/plain')
-
+    res.set('Content-Type', 'text/plain');
     mongoExport.stdout.on('data', function (data) {
-
         if (data) {
-
-            res.send(data);
-
+            // You can change or add something else here to the
+            // reponse if you like before returning it.  Count
+            // number of entries returned by mongoexport for example
+            res.send(data.toString());
         } else {
-
-            res.send(`No data was returned.`)
-
+            res.send('mongoexport returns no data');
         }
     })
 
