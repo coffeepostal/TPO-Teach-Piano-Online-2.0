@@ -4,6 +4,6 @@ import axios from 'axios'
 //  Return the API settings, using Axios
 export default() => {
     return axios.create({
-        baseURL: `/`
+        baseURL: `http://localhost:7777`
     })
 }

@@ -51,7 +51,7 @@
           <a href="/csv/piece,composer" class="button">Pieces/Composers CSV</a>
         </li>
         <li>
-          <a href="/csv/email" class="button">Email Addresses CSV</a>
+          <a href="#" @click="downloadCSV()" class="button">Email Addresses CSV</a>
         </li>
       </ul>
     </div>
@@ -85,8 +85,49 @@ export default {
       await PostsService.exportCSV(fields);
       this.$router.push({ name: "Results" });
     },
-    async downloadCSV(fields) {
-      await PostsService.downloadCSV(fields);
+    //  CSV Download Methods
+    objectToCSV(data) {
+      //  Create Array to push data to
+      const csvRows = [];
+
+      //  Get Headers
+      const headers = Object.keys(data[0]);
+      csvRows.push(headers.join(","));
+
+      //  Loop rows
+      for (const row of data) {
+        const values = headers.map(header => {
+          const escaped = ("" + row[header]).replace(/"/g, '\\"');
+          return `"${escaped}"`;
+        });
+        csvRows.push(values.join(","));
+      }
+      return csvRows.join("\n");
+    },
+    download(data) {
+      const blob = new Blob([data], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("hidden", "");
+      a.setAttribute("href", url);
+      a.setAttribute("download", "data.csv");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
+    async downloadCSV() {
+      const jsonUrl = "https://radiant-beyond-76022.herokuapp.com/posts";
+      const res = await fetch(jsonUrl);
+      const json = await res.json();
+
+      const data = json.posts.map(row => ({
+        piece: row.piece,
+        composer: row.composer,
+        email: row.email
+      }));
+
+      const csvData = this.objectToCSV(data);
+      this.download(csvData);
     }
   }
 };
