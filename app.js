@@ -189,7 +189,7 @@ if (app.get('env') === 'development') {
 app.use(errorHandlers.productionErrors);
 
 // Start our app!
-app.set('port', process.env.PORT || 7777)
+app.set('port', config.get('port') || 7777)
 const server = app.listen(app.get('port'), () => {
     console.log(`🚀 Express running → PORT ${server.address().port}`)
 })
