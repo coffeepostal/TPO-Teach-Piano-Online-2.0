@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 const errorHandlers = require('./handlers/errorHandlers')
+const config = require('config')
 //  Add additional Node packages: child process (to be used with mongoexport) and fs (access the file system)
 const spawn = require('child_process').spawn
 const fs = require('fs')
@@ -30,7 +31,8 @@ app.use(cors())
 Post = require("./models/post")
 
 // Connect to our Database and handle any bad connections
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true })
+const db_uri = config.get('mongoURI');
+mongoose.connect(db_uri, { useNewUrlParser: true })
 const db = mongoose.connection;
 mongoose.Promise = global.Promise // Tell Mongoose to use ES6 promises
 db.on('error', (err) => {
