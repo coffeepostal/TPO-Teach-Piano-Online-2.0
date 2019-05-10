@@ -9,6 +9,8 @@ const errorHandlers = require('./handlers/errorHandlers')
 const spawn = require('child_process').spawn
 const fs = require('fs')
 const path = require('path')
+//  Attempting to get MongoDB posts into a CSV format that Heroku won't freak out about
+const stringify = require('csv-stringify')
 
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' })
@@ -131,7 +133,35 @@ app.get('/csv/:fields', (req, res) => {
         '--type', 'csv'
     ])
 
+
     res.set('Content-Type', 'text/csv')
+
+    mongoExport.stdout.on('data', function (data) {
+
+        if (data) {
+
+            res.send(data);
+
+        } else {
+
+            res.send(`No data was returned.`)
+
+        }
+    })
+})
+
+// TEST CSV
+app.get('/csvposts', (req, res) => {
+    //  Query the DB for the fields requested
+    const mongoExport = spawn('mongoexport', [
+        '--uri', process.env.DATABASE,
+        '--collection', 'posts',
+        '--fields', 'email',
+        '--type', 'csv'
+    ])
+
+
+    // res.set('Content-Type', 'text/csv')
 
     mongoExport.stdout.on('data', function (data) {
 
