@@ -6,6 +6,8 @@ const cors = require('cors')
 const morgan = require('morgan')
 const errorHandlers = require('./handlers/errorHandlers')
 const config = require('config')
+//  node-csv for generating/parsing/etc. CSV
+const csv = require('csv')
 //  Add additional Node packages: child process (to be used with mongoexport) and fs (access the file system)
 const spawn = require('child_process').spawn
 const fs = require('fs')
@@ -104,7 +106,7 @@ app.get('/export/:fields', (req, res) => {
         '--type', 'csv'
     ])
 
-    res.set('Content-Type', 'text/plain')
+    res.set('Content-Type', 'text/csv')
 
     mongoExport.stdout.on('data', function (data) {
 
@@ -129,6 +131,12 @@ app.get('/export/:fields', (req, res) => {
 
         }
     })
+})
+
+//  Export CSV
+app.get('/print/', (req, res) => {
+
+    csv.generate({ length: 10 }).pipe(process.stdout)
 })
 
 // Server Static Assets
