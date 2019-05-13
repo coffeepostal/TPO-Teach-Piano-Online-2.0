@@ -87,12 +87,17 @@
 
           <fieldset>
             <legend title="We require an email address to track uses">Weekly Missions</legend>
-            <textarea v-model="missions" placeholder="...add your Weekly Missions" name="missions"></textarea>
+            <textarea
+              v-model="missions"
+              placeholder="...add your Weekly Missions"
+              name="missions"
+              rows="1"
+            ></textarea>
           </fieldset>
 
           <fieldset>
             <legend title="We require an email address to track uses">Lesson Goals</legend>
-            <textarea v-model="goals" placeholder="...add your Lesson Goals" name="goals"></textarea>
+            <textarea v-model="goals" placeholder="...add your Lesson Goals" name="goals" rows="1"></textarea>
           </fieldset>
 
           <fieldset>
