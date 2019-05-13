@@ -1,7 +1,6 @@
 //  Import the packages
 const express = require('express')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 const errorHandlers = require('./handlers/errorHandlers')
@@ -9,8 +8,7 @@ const errorHandlers = require('./handlers/errorHandlers')
 const spawn = require('child_process').spawn
 const fs = require('fs')
 const path = require('path')
-//  Attempting to get MongoDB posts into a CSV format that Heroku won't freak out about
-const stringify = require('csv-stringify')
+const request = require('request')
 
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' })
@@ -34,7 +32,7 @@ Post = require("./models/post")
 
 // Fetch all posts
 app.get('/posts', (req, res) => {
-    Post.find({}, 'piece composer email', function (error, posts) {
+    Post.find({}, 'piece composer email measures repeat', function (error, posts) {
         if (error) { console.error(error); }
         res.json({
             posts: posts
@@ -48,16 +46,52 @@ app.post('/posts', (req, res) => {
     const piece = req.body.piece;
     const composer = req.body.composer;
     const email = req.body.email;
+    const measures = req.body.measures;
+    const repeat = req.body.repeat;
     const new_post = new Post({
         piece: piece,
         composer: composer,
-        email: email
+        email: email,
+        measures: measures,
+        repeat: repeat
     })
 
     new_post.save(function (error) {
         if (error) {
             console.log(error)
         }
+
+        //  MailChimp Integration
+        const data = {
+            members: [
+                {
+                    email_address: email,
+                    status: 'subscribed'
+                }
+            ]
+        }
+        const postData = JSON.stringify(data)
+        const options = {
+            url: 'https://us5.api.mailchimp.com/3.0/lists/70efc45acd',
+            method: 'POST',
+            headers: {
+                Authorization: 'auth 079ee602a777ab06fa2f8cda17aad289-us5'
+            },
+            body: postData
+        }
+
+        request(options, (err, response, body) => {
+            if (err) {
+                console.log(err)
+            } else {
+                if (response.statusCode === 200) {
+                    console.log(`Success`)
+                } else {
+                    console.log(err)
+                }
+            }
+        })
+
         res.send({
             success: true,
             message: 'Post saved successfully!'

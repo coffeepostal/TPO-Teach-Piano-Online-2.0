@@ -4,7 +4,9 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
     piece: String,
     composer: String,
-    email: String
+    email: String,
+    measures: String,
+    repeat: String
 });
 
 const Post = mongoose.model("Post", PostSchema);

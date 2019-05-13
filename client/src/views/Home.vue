@@ -86,6 +86,16 @@
           </fieldset>
 
           <fieldset>
+            <legend title="We require an email address to track uses">Weekly Missions</legend>
+            <textarea v-model="missions" placeholder="...add your Weekly Missions" name="missions"></textarea>
+          </fieldset>
+
+          <fieldset>
+            <legend title="We require an email address to track uses">Lesson Goals</legend>
+            <textarea v-model="goals" placeholder="...add your Lesson Goals" name="goals"></textarea>
+          </fieldset>
+
+          <fieldset>
             <legend title="We require an email address to track uses">Email Address ❓</legend>
             <input type="email" v-model="email" placeholder="user@domain.com" name="email">
           </fieldset>
@@ -145,22 +155,32 @@
           <div id="footer">
             <div class="footer-column">
               <h4 class="footer-column-title">Weekly Missions</h4>
-              <div class="footer-column-number">1</div>
-              <div class="footer-column-box"></div>
-              <div class="footer-column-number">2</div>
-              <div class="footer-column-box"></div>
-              <div class="footer-column-number">3</div>
-              <div class="footer-column-box"></div>
+              <div class="footer-column-text" v-if="missions">
+                <p>{{ missions }}</p>
+              </div>
+              <div class="footer-column-list" v-else>
+                <div class="footer-column-number">1</div>
+                <div class="footer-column-box"></div>
+                <div class="footer-column-number">2</div>
+                <div class="footer-column-box"></div>
+                <div class="footer-column-number">3</div>
+                <div class="footer-column-box"></div>
+              </div>
             </div>
 
             <div class="footer-column">
               <h4 class="footer-column-title">Lesson Goals</h4>
-              <div class="footer-column-number">1</div>
-              <div class="footer-column-box"></div>
-              <div class="footer-column-number">2</div>
-              <div class="footer-column-box"></div>
-              <div class="footer-column-number">3</div>
-              <div class="footer-column-box"></div>
+              <div class="footer-column-text" v-if="goals">
+                <p>{{ goals }}</p>
+              </div>
+              <div class="footer-column-list" v-else>
+                <div class="footer-column-number">1</div>
+                <div class="footer-column-box"></div>
+                <div class="footer-column-number">2</div>
+                <div class="footer-column-box"></div>
+                <div class="footer-column-number">3</div>
+                <div class="footer-column-box"></div>
+              </div>
             </div>
           </div>
 
@@ -206,6 +226,8 @@ export default {
       numberOfLargemeasuresMax: 210,
       numberOfSmallmeasuresMax: 336,
       messages: [],
+      missions: "",
+      goals: "",
       email: ""
     };
   },
@@ -248,7 +270,9 @@ export default {
       await PostsService.addPost({
         piece: this.piece,
         composer: this.composer,
-        email: this.email
+        email: this.email,
+        measures: this.measures,
+        repeat: this.repeat
       });
       // this.$router.push({ name: 'Posts' })
     },
@@ -757,17 +781,23 @@ p {
     #footer {
       // background: red;
       display: grid;
-      grid-template-columns: auto auto;
+      grid-template-columns: 1fr 1fr;
       grid-gap: 18pt;
 
       .footer-column {
-        display: grid;
-        grid-template-columns: 15pt auto;
-        grid-template-rows: repeat(4, 22pt);
       }
 
       .footer-column-title {
-        grid-column: 1 / 3;
+      }
+
+      .footer-column-text {
+        margin-top: 10px;
+      }
+
+      .footer-column-list {
+        display: grid;
+        grid-template-columns: 15pt auto;
+        grid-template-rows: repeat(4, 22pt);
       }
 
       .footer-column-number,
@@ -818,7 +848,8 @@ fieldset {
   }
   input[type="text"],
   input[type="number"],
-  input[type="email"] {
+  input[type="email"],
+  textarea {
     font-family: "Source Serif Pro", serif;
     border: 0;
     border-bottom: 1px solid $black;

@@ -23,12 +23,20 @@
                   <h3>Composer</h3>
                 </th>
                 <th>
+                  <h3>Measures</h3>
+                </th>
+                <th>
+                  <h3>Repetition(s)</h3>
+                </th>
+                <th>
                   <h3>Delete</h3>
                 </th>
               </tr>
               <tr v-for="post in posts" :key="post.id">
                 <td>{{ post.piece }}</td>
                 <td>{{ post.composer }}</td>
+                <td>{{ post.measures }}</td>
+                <td>{{ post.repeat }}</td>
                 <td>
                   <a href="#" @click="deletePost(post._id)">❌</a>
                 </td>
@@ -39,7 +47,7 @@
             There are no posts.. Lets add one now
             <br>
             <br>
-            <router-link v-bind:to="{ name: 'Practice Sheets' }" class="button">Add Post</router-link>
+            <router-link v-bind:to="{ name: 'Practice Sheets' }" class="button">Return Home</router-link>
           </div>
         </div>
       </div>
@@ -48,7 +56,7 @@
       <h2>Download CSV File</h2>
       <ul class="link-list">
         <li>
-          <a @click="downloadCSV()" class="button">data.CSV</a>
+          <a @click="downloadCSV()" class="button">generator-data.CSV</a>
         </li>
       </ul>
     </div>
@@ -107,7 +115,7 @@ export default {
       const a = document.createElement("a");
       a.setAttribute("hidden", "");
       a.setAttribute("href", url);
-      a.setAttribute("download", "data.csv");
+      a.setAttribute("download", "generator-data.csv");
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -120,7 +128,8 @@ export default {
       const data = json.posts.map(row => ({
         piece: row.piece,
         composer: row.composer,
-        email: row.email
+        measures: row.measures,
+        repeat: row.repeat
       }));
 
       const csvData = this.objectToCSV(data);
