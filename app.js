@@ -72,10 +72,10 @@ app.post('/posts', (req, res) => {
         }
         const postData = JSON.stringify(data)
         const options = {
-            url: 'https://us5.api.mailchimp.com/3.0/lists/70efc45acd',
+            url: process.env.MC_URL,
             method: 'POST',
             headers: {
-                Authorization: 'auth 079ee602a777ab06fa2f8cda17aad289-us5'
+                Authorization: process.env.MC_KEY
             },
             body: postData
         }
@@ -94,7 +94,7 @@ app.post('/posts', (req, res) => {
 
         res.send({
             success: true,
-            message: 'Post saved successfully!'
+            message: 'Piece saved successfully!'
         })
     })
 })
