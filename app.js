@@ -75,7 +75,7 @@ app.post('/posts', (req, res) => {
             url: process.env.MC_URL,
             method: 'POST',
             headers: {
-                Authorization: process.env.MC_KEY
+                Authorization: process.env.MC_API
             },
             body: postData
         }
