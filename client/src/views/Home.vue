@@ -86,7 +86,7 @@
           </fieldset>
 
           <fieldset>
-            <legend title="We require an email address to track uses">Weekly Missions</legend>
+            <legend>Weekly Missions</legend>
             <textarea
               v-model="missions"
               placeholder="...add your Weekly Missions"
@@ -96,12 +96,18 @@
           </fieldset>
 
           <fieldset>
-            <legend title="We require an email address to track uses">Lesson Goals</legend>
+            <legend>Lesson Goals</legend>
             <textarea v-model="goals" placeholder="...add your Lesson Goals" name="goals" rows="1"></textarea>
           </fieldset>
 
           <fieldset>
-            <legend title="We require an email address to track uses">Email Address ❓</legend>
+            <legend>
+              Email Address
+              <span
+                class="tooltip-trigger"
+                v-tooltip="{ content: 'Your email address will be added to the Yellow Cat Publishing newsletter. We hate spam. Your information is safe with us.', classes: 'tooltip' }"
+              >❓</span>
+            </legend>
             <input type="email" v-model="email" placeholder="user@domain.com" name="email">
           </fieldset>
         </div>
@@ -850,6 +856,9 @@ fieldset {
     font-family: "Montserrat", sans-serif;
     font-weight: 900;
     margin-bottom: 5px;
+    span.tooltip-trigger {
+      cursor: pointer;
+    }
   }
   input[type="text"],
   input[type="number"],

@@ -5,6 +5,10 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+//  Importing Plugins
+import VTooltip from 'v-tooltip'
+Vue.use(VTooltip)
+
 new Vue({
   router,
   store,
