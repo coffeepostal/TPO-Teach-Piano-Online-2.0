@@ -27,7 +27,7 @@
               value="practice"
               v-model="sheet"
               checked
-            >
+            />
             <label for="toggle-on" class="btn">Practice Sheets</label>
             <input
               id="toggle-off"
@@ -36,13 +36,13 @@
               type="radio"
               value="random"
               v-model="sheet"
-            >
+            />
             <label for="toggle-off" class="btn">Random Numbers</label>
           </fieldset>
 
           <fieldset>
             <legend>Piece Title:</legend>
-            <input type="text" v-model="piece" placeholder="Input Piece Title" name="piece">
+            <input type="text" v-model="piece" placeholder="Input Piece Title" name="piece" />
           </fieldset>
 
           <fieldset>
@@ -52,7 +52,7 @@
               v-model="composer"
               placeholder="Input Composer's Name (optional)"
               name="composer"
-            >
+            />
           </fieldset>
 
           <fieldset>
@@ -62,27 +62,40 @@
               v-model="student"
               placeholder="Input Student's Name (optional)"
               name="student"
-            >
+            />
           </fieldset>
 
           <fieldset v-show="sheet === 'practice'">
             <legend>Number of Measures</legend>
-            <input v-model.number="measures" @keyup="repeatRange" type="number" min="1" max="96">
+            <input v-model.number="measures" @change="repeatRange" type="number" min="1" />
           </fieldset>
 
           <fieldset v-show=" sheet==='random'">
             <legend>Starting Measure</legend>
-            <input v-model.number=" startingMeasure" @keyup="repeatRange" type="number" min="1">
+            <input v-model.number=" startingMeasure" @change="repeatRange" type="number" min="1" />
           </fieldset>
 
           <fieldset v-show="sheet === 'random'">
             <legend>Ending Measure</legend>
-            <input v-model.number="endingMeasure" @keyup="repeatRange" type="number">
+            <input v-model.number="endingMeasure" @change="repeatRange" type="number" />
           </fieldset>
 
           <fieldset>
             <legend>{{ repeatType }}</legend>
-            <input v-model.number="repeat" @keyup="repeatRange" type="number" min="1">
+            <input v-model.number="repeat" @change="repeatRange" type="number" min="1" />
+          </fieldset>
+
+          <fieldset>
+            <legend>Box Size</legend>
+
+            <div class="custom-select">
+              <select v-model="boxSize">
+                <option disabled value>Please select one</option>
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
           </fieldset>
 
           <fieldset>
@@ -108,7 +121,7 @@
                 v-tooltip="{ content: 'Your email address will be added to the Yellow Cat Publishing newsletter. We hate spam. Your information is safe with us.', classes: 'tooltip' }"
               >❓</span>
             </legend>
-            <input type="email" v-model="email" placeholder="user@domain.com" name="email">
+            <input type="email" v-model="email" placeholder="user@domain.com" name="email" />
           </fieldset>
         </div>
 
@@ -133,7 +146,7 @@
       <div id="paper">
         <div id="page">
           <div id="copyright">
-            <img src="@/assets/tpo-yellowcat.jpg">
+            <img src="@/assets/tpo-yellowcat.jpg" />
           </div>
 
           <div id="info">
@@ -148,15 +161,15 @@
           </div>
 
           <div id="grid">
-            <div class="grid-practice" v-show="sheet === 'practice'">
-              <div class="grid-tile" v-for="grid in repeat" :key="grid.id">
+            <div class="grid-practice" :class="{ single: single }" v-show="sheet === 'practice'">
+              <div class="grid-tile" :class="boxSize" v-for="grid in repeat" :key="grid.id">
                 <div class="measure" v-for="(measure, index) in measures" :key="measure.id">
                   <div class="inner-measure">{{ index +1 }}</div>
                 </div>
               </div>
             </div>
 
-            <div class="grid-random" v-show="sheet === 'random'">
+            <div class="grid-random" :class="boxSize" v-show="sheet === 'random'">
               <div class="measure" v-for="(measure, index) in randomizedMeasures" :key="measure.id">
                 <div class="inner-measure">{{ randomizedMeasures[index] }}</div>
               </div>
@@ -197,7 +210,7 @@
 
           <div id="logo-date">
             <div id="logo">
-              <img src="@/assets/tpo-logo.jpg">
+              <img src="@/assets/tpo-logo.jpg" />
             </div>
             <div id="date">
               <h4>{{ date }}</h4>
@@ -231,6 +244,7 @@ export default {
       measuresMax: 96,
       repeat: 1,
       repeatMax: 6,
+      single: true,
       startingMeasure: 13,
       endingMeasure: 28,
       measureRange: [],
@@ -239,7 +253,8 @@ export default {
       messages: [],
       missions: "",
       goals: "",
-      email: ""
+      email: "",
+      boxSize: "medium"
     };
   },
   computed: {
@@ -287,11 +302,34 @@ export default {
       });
       // this.$router.push({ name: 'Posts' })
     },
+    boxSizeChange() {
+      //  Test to see if there's only one column
+      if (this.single == true) {
+        //  Change max number of boxes allowed
+        if (this.boxSize == "small") {
+          this.measuresMax = 690;
+        } else if (this.boxSize == "medium") {
+          this.measuresMax = 252;
+        } else if (this.boxSize == "large") {
+          this.measuresMax = 63;
+        }
+      } else {
+        //  Change max number of boxes allowed
+        if (this.boxSize == "small") {
+          this.measuresMax = 400;
+        } else if (this.boxSize == "medium") {
+          this.measuresMax = 96;
+        } else if (this.boxSize == "large") {
+          this.measuresMax = 24;
+        }
+      }
+    },
     errorMessages() {
       //	 Set variables
       const repeat = this.repeat;
-      var repeatMax = this.repeatMax;
+      let repeatMax = this.repeatMax;
       const measures = this.measures;
+      let measuresMax = this.measuresMax;
       const sheet = this.sheet;
       const measureRange = this.measureRange.length;
       const startingMeasure = this.startingMeasure;
@@ -345,9 +383,12 @@ export default {
           this.measures = 8;
           this.message("error", "There can be a minimum of 8 measures");
         }
-        if (measures > 96) {
-          this.measures = 96;
-          this.message("error", "There can be a maximum of 96 measures");
+        if (measures > measuresMax) {
+          this.measures = measuresMax;
+          this.message(
+            "error",
+            "There can be a maximum of " + this.measuresMax + " measures"
+          );
         }
       } else {
         //	Don't let the repeat go less than 1
@@ -380,6 +421,9 @@ export default {
       }
     },
     exportPDF() {
+      //  Run through max box sizes
+      this.boxSizeChange();
+
       //  Run through the error messages
       this.errorMessages();
 
@@ -445,6 +489,13 @@ export default {
       // const measureRange = this.measureRange.length;
       const startingMeasure = this.startingMeasure;
       const endingMeasure = this.endingMeasure;
+
+      // Set single true/false
+      if (repeat == 1) {
+        this.single = true;
+      } else {
+        this.single = false;
+      }
 
       //	Combine variables to make other variables
       const subtotalMeasures = endingMeasure - startingMeasure;
@@ -760,12 +811,50 @@ p {
         grid-template-columns: repeat(2, 264pt);
         grid-gap: 12pt;
 
+        &.single {
+          grid-template-columns: 1fr;
+
+          .grid-tile {
+            display: grid;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+
+            &.small {
+              grid-template-columns: repeat(30, 18pt);
+              grid-auto-rows: 18pt;
+            }
+
+            &.medium {
+              grid-template-columns: repeat(18, 30pt);
+              grid-auto-rows: 30pt;
+            }
+
+            &.large {
+              grid-template-columns: repeat(9, 60pt);
+              grid-auto-rows: 60pt;
+            }
+          }
+        }
+
         .grid-tile {
           display: grid;
-          grid-template-columns: repeat(8, 33pt);
-          grid-auto-rows: 33pt;
           border-top: 1px solid black;
           border-left: 1px solid black;
+
+          &.small {
+            grid-template-columns: repeat(16, 16.5pt);
+            grid-auto-rows: 16.5pt;
+          }
+
+          &.medium {
+            grid-template-columns: repeat(8, 33pt);
+            grid-auto-rows: 33pt;
+          }
+
+          &.large {
+            grid-template-columns: repeat(4, 66pt);
+            grid-auto-rows: 66pt;
+          }
         }
       }
 
@@ -775,6 +864,21 @@ p {
         border-top: 1px solid black;
         border-left: 1px solid black;
         margin: 0 6pt;
+
+        &.small {
+          grid-template-columns: repeat(32, 16.5pt);
+          grid-auto-rows: 16.5pt;
+        }
+
+        &.medium {
+          grid-template-columns: repeat(16, 33pt);
+          grid-auto-rows: 33pt;
+        }
+
+        &.large {
+          grid-template-columns: repeat(8, 66pt);
+          grid-auto-rows: 66pt;
+        }
       }
     }
     .measure {
@@ -871,6 +975,35 @@ fieldset {
     font-weight: 300;
     padding-bottom: 2px;
     width: 100%;
+  }
+
+  .custom-select {
+    font-family: "Source Serif Pro", serif;
+    border: 0;
+    border-bottom: 1px solid $black;
+    font-size: 1rem;
+    font-weight: 300;
+    padding-bottom: 0;
+    width: 100%;
+
+    overflow: hidden;
+    background: #fff
+      url("data:image/png;base64,R0lGODlhDwAUAIABAAAAAP///yH5BAEAAAEALAAAAAAPABQAAAIXjI+py+0Po5wH2HsXzmw//lHiSJZmUAAAOw==")
+      no-repeat 98% 50%;
+
+    select {
+      padding: 5px 8px;
+      width: 100%;
+      border: none;
+      box-shadow: none;
+      background: transparent;
+      background-image: none;
+      -webkit-appearance: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   &.title {
