@@ -70,12 +70,12 @@
             <input v-model.number="measures" @change="repeatRange" type="number" min="1" />
           </fieldset>
 
-          <fieldset v-show=" sheet==='random'">
+          <fieldset class="single-cell" v-show=" sheet==='random'">
             <legend>Starting Measure</legend>
             <input v-model.number=" startingMeasure" @change="repeatRange" type="number" min="1" />
           </fieldset>
 
-          <fieldset v-show="sheet === 'random'">
+          <fieldset class="single-cell" v-show="sheet === 'random'">
             <legend>Ending Measure</legend>
             <input v-model.number="endingMeasure" @change="repeatRange" type="number" />
           </fieldset>
@@ -634,11 +634,20 @@ p {
 
   #generation-form {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-gap: 20px;
     margin-top: 20px;
-    .title {
-      grid-column: 1 / -1;
+
+    fieldset {
+      grid-column: span 2;
+
+      &.title {
+        grid-column: 1 / -1;
+      }
+
+      &.single-cell {
+        grid-column: span 1;
+      }
     }
   }
   #generation-button {
