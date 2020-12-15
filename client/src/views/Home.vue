@@ -765,7 +765,7 @@ p {
 		height: 720pt;
 		margin: 36pt;
 		display: grid;
-		grid-template-rows: 9pt 52pt auto 45pt;
+		grid-template-rows: 9pt 50pt auto 45pt;
 		grid-gap: 18pt;
 
 		#copyright {
