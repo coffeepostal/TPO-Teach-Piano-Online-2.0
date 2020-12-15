@@ -68,56 +68,6 @@
 					</fieldset>
 
 					<fieldset>
-						<legend>Student's Name:</legend>
-						<input
-							type="text"
-							v-model="student"
-							placeholder="Input Student's Name (optional)"
-							name="student"
-						/>
-					</fieldset>
-
-					<fieldset v-show="sheet === 'practice'">
-						<legend>Number of Measures</legend>
-						<input
-							v-model.number="measures"
-							@keyup="repeatRange"
-							type="number"
-							min="1"
-							max="96"
-						/>
-					</fieldset>
-
-					<fieldset v-show="sheet === 'random'">
-						<legend>Starting Measure</legend>
-						<input
-							v-model.number="startingMeasure"
-							@keyup="repeatRange"
-							type="number"
-							min="1"
-						/>
-					</fieldset>
-
-					<fieldset v-show="sheet === 'random'">
-						<legend>Ending Measure</legend>
-						<input
-							v-model.number="endingMeasure"
-							@keyup="repeatRange"
-							type="number"
-						/>
-					</fieldset>
-
-					<fieldset>
-						<legend>{{ repeatType }}</legend>
-						<input
-							v-model.number="repeat"
-							@keyup="repeatRange"
-							type="number"
-							min="1"
-						/>
-					</fieldset>
-
-					<fieldset>
 						<legend
 							title="We require an email address to track uses"
 						>
@@ -128,6 +78,35 @@
 							v-model="email"
 							placeholder="user@domain.com"
 							name="email"
+						/>
+					</fieldset>
+
+					<fieldset>
+						<legend>Starting Measure</legend>
+						<input
+							v-model.number="startingMeasure"
+							@change="repeatRange"
+							type="number"
+							min="1"
+						/>
+					</fieldset>
+
+					<fieldset>
+						<legend>Ending Measure</legend>
+						<input
+							v-model.number="endingMeasure"
+							@change="repeatRange"
+							type="number"
+						/>
+					</fieldset>
+
+					<fieldset>
+						<legend>{{ repeatType }}</legend>
+						<input
+							v-model.number="repeat"
+							@change="repeatRange"
+							type="number"
+							min="1"
 						/>
 					</fieldset>
 				</div>
@@ -157,10 +136,9 @@
 					</div>
 
 					<div id="info">
-						<div v-if="piece || composer || student">
+						<div v-if="piece || composer">
 							<h4>{{ piece }}</h4>
 							<h4 v-show="composer">by {{ composer }}</h4>
-							<h5>{{ student }}</h5>
 						</div>
 						<div v-else>
 							<h6>Please input info above...</h6>
@@ -179,11 +157,11 @@
 							>
 								<div
 									class="measure"
-									v-for="(measure, index) in measures"
+									v-for="measure in rangedMeasures"
 									:key="measure.id"
 								>
 									<div class="inner-measure">
-										{{ index + 1 }}
+										{{ measure }}
 									</div>
 								</div>
 							</div>
@@ -252,7 +230,6 @@ export default {
 	data() {
 		return {
 			sheet: 'practice',
-			student: '',
 			piece: '',
 			composer: '',
 			date: moment().format('dddd, MMMM Do YYYY'),
@@ -271,7 +248,6 @@ export default {
 	},
 	computed: {
 		randomizedMeasures() {
-			console.log('randomizedMeasures() has been called')
 			//	Setup variables
 			let rangedMeasures = []
 			let repeat = this.repeat
@@ -294,6 +270,17 @@ export default {
 			//	Set the value of measureRange to the randomized, repeated array
 			// return (this.measureRange = randomizedMeasures);
 			return randomizedMeasures
+		},
+		rangedMeasures() {
+			let rangedMeasures = []
+
+			//	Create array from low/high values
+			for (let i = this.startingMeasure; i <= this.endingMeasure; i++) {
+				//	Add 'i' to array
+				rangedMeasures.push(i)
+			}
+
+			return rangedMeasures
 		},
 		repeatType() {
 			if (this.sheet === 'practice') {
@@ -474,10 +461,7 @@ export default {
 		repeatRange() {
 			//	 Set variables
 			const repeat = this.repeat
-			// const repeatMax = this.repeatMax;
-			// const measures = this.measures;
-			// const sheet = this.sheet;
-			// const measureRange = this.measureRange.length;
+			const measuresMax = this.measuresMax
 			const startingMeasure = this.startingMeasure
 			const endingMeasure = this.endingMeasure
 
@@ -485,7 +469,11 @@ export default {
 			const subtotalMeasures = endingMeasure - startingMeasure
 			const totalMeasures = subtotalMeasures * repeat
 
-			console.log(totalMeasures)
+			// If totalMeasures is too long, run through setMeasureLength function
+			if (totalMeasures > measuresMax - 1) {
+				// Set ending measure to max length
+				this.endingMeasure = startingMeasure + measuresMax - 1
+			}
 		},
 		showHideControls() {
 			//  Get the elements
