@@ -862,7 +862,7 @@ p {
 
 			#date {
 				display: flex;
-				align-items: flex-end;
+				align-items: center;
 				justify-content: flex-end;
 				h4 {
 					color: rgba($black, $alpha: 0.5);
