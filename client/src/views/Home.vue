@@ -180,7 +180,7 @@
 						</div>
 					</div>
 
-					<div id="footer">
+					<!-- <div id="footer">
 						<div class="footer-column">
 							<h4 class="footer-column-title">Weekly Missions</h4>
 							<div class="footer-column-number">1</div>
@@ -200,7 +200,7 @@
 							<div class="footer-column-number">3</div>
 							<div class="footer-column-box"></div>
 						</div>
-					</div>
+					</div> -->
 
 					<div id="logo-date">
 						<div id="logo">
@@ -234,7 +234,7 @@ export default {
 			composer: '',
 			date: moment().format('dddd, MMMM Do YYYY'),
 			measures: 40,
-			measuresMax: 96,
+			measuresMax: 136,
 			repeat: 1,
 			repeatMax: 6,
 			startingMeasure: 13,
@@ -765,7 +765,7 @@ p {
 		height: 720pt;
 		margin: 36pt;
 		display: grid;
-		grid-template-rows: 9pt 84pt auto 88pt 45pt;
+		grid-template-rows: 9pt 52pt auto 45pt;
 		grid-gap: 18pt;
 
 		#copyright {
