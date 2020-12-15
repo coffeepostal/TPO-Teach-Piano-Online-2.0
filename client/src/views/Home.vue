@@ -204,7 +204,7 @@
 
 					<div id="logo-date">
 						<div id="logo">
-							<img src="@/assets/tpo-logo.jpg" />
+							<img src="@/assets/c2ch-logo.jpg" />
 						</div>
 						<div id="date">
 							<h4>{{ date }}</h4>
